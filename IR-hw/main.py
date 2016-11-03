@@ -19,6 +19,6 @@ print 'index.to_dict():'
 print index.to_dict(), '\n'
 
 print 'index.inverted_index():'
-print index.inverted_index(), '\n\n'
+print index.inverted_index(), '\n'
 
 print index.get_posting_list('pig')
