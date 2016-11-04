@@ -274,7 +274,7 @@ class HashedIndex(object):
 
     def sorted_inverted_index(self):
         """
-        return an OrderedDict obeject
+        return an OrderedDict object
         of the inverted index with 'sorted' terms and corresponding 'sorted' postings
         :return: sorted inverted index
         """
