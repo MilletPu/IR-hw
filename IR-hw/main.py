@@ -22,4 +22,5 @@ index.add_term_occurrence('pig'.encode('utf-8'), 'doc3')
 index.add_term_occurrence('pig'.encode('utf-8'), 'doc5')
 
 print index.inverted_index()
-print collections.OrderedDict(sorted(index.inverted_index().items(), key=lambda t: t[0]))
+print index.sorted_inverted_index()
+print index.sorted_inverted_index()['apples']
