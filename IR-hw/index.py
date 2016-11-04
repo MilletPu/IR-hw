@@ -283,15 +283,15 @@ class HashedIndex(object):
             self._inverted_index[terms][self.get_document_frequency(terms)] = sorted(self.get_documents(terms).keys())
         return collections.OrderedDict(sorted(self._inverted_index.items(), key=lambda t: t[0]))
 
-
-    def get_posting_list(self, term):
-        return self._inverted_index[term].values()
-
-
-
-
-
-
+    def get_sorted_posting_list(self, term):
+        """
+        return a posting list of a single term (i.e. its own inverted index).
+        :param term: term
+        :return: posting list
+        """
+        posting_list = {term: {}}
+        posting_list[term][self.get_document_frequency(term)] = sorted(self.get_documents(term).keys())
+        return posting_list
 
 
 def merge(index_list):
