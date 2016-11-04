@@ -264,8 +264,8 @@ class HashedIndex(object):
     def inverted_index(self):
         for terms in self._terms.keys():
             self._inverted_index[terms] = {}
-            self._inverted_index[terms][self.get_document_frequency(terms)] = self.get_documents(terms).keys()
-        return self._inverted_index
+            self._inverted_index[terms][self.get_document_frequency(terms)] = sorted(self.get_documents(terms).keys())
+        return collections.OrderedDict(sorted(self._inverted_index.items(), key=lambda t: t[0]))
 
     def get_posting_list(self, term):
         return self._inverted_index[term].values()
