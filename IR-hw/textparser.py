@@ -8,6 +8,16 @@ import unicodedata
 from copy import copy
 from string import ascii_letters, digits, punctuation
 
+#
+# # Stemmer interface which returns token unchanged
+# class NullStemmer(object):
+#     def stem(self, x):
+#         return x
+#
+#     def __str__(self):
+#         return '<NullStemmer>'
+#
+
 _stopwords = frozenset()
 _accepted = frozenset(ascii_letters + digits + punctuation) - frozenset('\'')
 
@@ -32,15 +42,15 @@ def tfidf(tf, df, corpus_size):
         return 0
 
 
-def normalize_unicode(text):
-    """
-    Normalize any unicode characters to ascii equivalent
-    https://docs.python.org/2/library/unicodedata.html#unicodedata.normalize
-    """
-    if type(text) == unicode:
-        return unicodedata.normalize('NFKD', text).encode('ascii', 'ignore')
-    else:
-        return text
+# def normalize_unicode(text):
+#     """
+#     Normalize any unicode characters to ascii equivalent
+#     https://docs.python.org/2/library/unicodedata.html#unicodedata.normalize
+#     """
+#     if type(text) == unicode:
+#         return unicodedata.normalize('NFKD', text).encode('ascii', 'ignore')
+#     else:
+#         return text
 
 
 def get_ngrams(token_list, n=2):
