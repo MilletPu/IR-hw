@@ -66,6 +66,15 @@ class HashedIndex(object):
         """
         Adds an occurrence of the term in the specified document.
         """
+        if isinstance(term, tuple):
+            term = term[0]
+        if isinstance(document, tuple):
+            document = document[0]
+        if isinstance(term, unicode):
+            term = term.encode('utf-8')
+        if isinstance(document, unicode):
+            document = document.encode('utf-8')
+
         if document not in self._documents:
             self._documents[document] = 0
 
