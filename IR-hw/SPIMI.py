@@ -1,8 +1,14 @@
+# -*- encoding: utf8 -*-
+from collections import OrderedDict
+
 import textparser
 import index
 from bs4 import BeautifulSoup
+import collections
+import configparser
 
+output = open('data.txt')
+index = output.read().lower()
+output.close()
 
-def SPIMI(file):
-    file_object = open(file)
-    corpus = file_object.read().lower()
+collections.OrderedDict(index)

@@ -4,8 +4,7 @@ import textparser
 import index
 from bs4 import BeautifulSoup
 
-
-file_object = open('shakespeare-merchant.trec.1')
+file_object = open('shakespeare-merchant.trec.2')
 corpus = file_object.read().lower()
 file_object.close()
 
@@ -27,4 +26,4 @@ for doc in all_docs:
 print index.get_sorted_inverted_index()
 print index.get_sorted_posting_list('title')
 print index.get_corpus_statistics(corpus)
-index.write_to_disk('data.data1.txt')
+index.write_index_to_disk('data2.txt')
