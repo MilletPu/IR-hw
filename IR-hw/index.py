@@ -278,7 +278,7 @@ class HashedIndex(object):
         """
         for terms in self._terms.keys():
             self._inverted_index[terms] = {}
-            self._inverted_index[terms][self.get_document_frequency(terms)] = self.get_documents(terms).keys()
+            self._inverted_index[terms][self.get_document_frequency(terms)] = self.get_documents(terms)
         return self._inverted_index
 
     def get_sorted_inverted_index(self):
@@ -289,7 +289,7 @@ class HashedIndex(object):
         """
         for terms in self._terms.keys():
             self._inverted_index[terms] = {}
-            self._inverted_index[terms][self.get_document_frequency(terms)] = sorted(self.get_documents(terms).keys()) #or: not sorted documents
+            self._inverted_index[terms][self.get_document_frequency(terms)] = sorted(self.get_documents(terms)) #or: not sorted documents
         return collections.OrderedDict(sorted(self._inverted_index.items(), key=lambda t: t[0]))
 
     def get_sorted_posting_list(self, term):
@@ -299,7 +299,7 @@ class HashedIndex(object):
         :return: posting list
         """
         posting_list = {term: {}}
-        posting_list[term][self.get_document_frequency(term)] = sorted(self.get_documents(term).keys())
+        posting_list[term][self.get_document_frequency(term)] = sorted(self.get_documents(term))
         return posting_list
 
     def get_corpus_statistics(self, corpus):
@@ -320,7 +320,7 @@ class HashedIndex(object):
         statistics['documents_average_len'] = int(statistics['tokens_count']/statistics['documents_count'])
         return statistics
 
-    def write_to_disk(self, filepath):
+    def write_index_to_disk(self, filepath):
         try:
             output = open(filepath, 'w+')
             output.write(str(self.get_sorted_inverted_index()))
