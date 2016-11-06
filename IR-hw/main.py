@@ -15,7 +15,9 @@ for doc in all_docs:
     doc_content = str(doc) #or: doc_content = str(doc.contents), which means <doc> is not included
     sp = BeautifulSoup(doc_content, "html.parser")
     all_doc_nos = sp.findAll("docno")
+
     doc_content_to_token = list(textparser.word_tokenize(doc_content))
+
     for doc_no in all_doc_nos:
         doc_no_content = doc_no.contents[0].encode('utf-8')
         for term in doc_content_to_token:
