@@ -8,16 +8,6 @@ import unicodedata
 from copy import copy
 from string import ascii_letters, digits, punctuation
 
-
-# Stemmer interface which returns token unchanged
-class NullStemmer(object):
-    def stem(self, x):
-        return x
-
-    def __str__(self):
-        return '<NullStemmer>'
-
-
 _stopwords = frozenset()
 _accepted = frozenset(ascii_letters + digits + punctuation) - frozenset('\'')
 
