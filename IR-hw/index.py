@@ -293,6 +293,24 @@ class HashedIndex(object):
         posting_list[term][self.get_document_frequency(term)] = sorted(self.get_documents(term).keys())
         return posting_list
 
+    def get_corpus_statistics(self, corpus):
+        """
+        get the statistics about the corpus and index:
+        1, number of terms
+        2, number of documents
+        3*, number of tokens
+        4*, documents average length
+        *: input "corpus" variable to get tokens_count and documents_average_len
+        :param corpus: corpus
+        :return:
+        """
+        statistics = {}
+        statistics['terms_count'] = len(self._terms)
+        statistics['documents_count'] = len(self._documents)
+        statistics['tokens_count'] = len(corpus)
+        statistics['documents_average_len'] = int(statistics['tokens_count']/statistics['documents_count'])
+        return statistics
+
 
 def merge(index_list):
     result = HashedIndex()
