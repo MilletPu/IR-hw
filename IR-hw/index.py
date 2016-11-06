@@ -281,7 +281,7 @@ class HashedIndex(object):
             self._inverted_index[terms][self.get_document_frequency(terms)] = self.get_documents(terms).keys()
         return self._inverted_index
 
-    def sorted_inverted_index(self):
+    def get_sorted_inverted_index(self):
         """
         return an OrderedDict object
         of the inverted index with 'sorted' terms and corresponding 'sorted' postings
@@ -289,7 +289,7 @@ class HashedIndex(object):
         """
         for terms in self._terms.keys():
             self._inverted_index[terms] = {}
-            self._inverted_index[terms][self.get_document_frequency(terms)] = sorted(self.get_documents(terms).keys())
+            self._inverted_index[terms][self.get_document_frequency(terms)] = sorted(self.get_documents(terms).keys()) #or: not sorted documents
         return collections.OrderedDict(sorted(self._inverted_index.items(), key=lambda t: t[0]))
 
     def get_sorted_posting_list(self, term):
@@ -319,6 +319,18 @@ class HashedIndex(object):
         statistics['tokens_count'] = len(corpus)
         statistics['documents_average_len'] = int(statistics['tokens_count']/statistics['documents_count'])
         return statistics
+
+    def write_to_disk(self, filepath):
+        try:
+            output = open(filepath, 'w+')
+            output.write(str(self.get_sorted_inverted_index()))
+            output.close()
+            print ('Successfylly write to disk!')
+        except:
+            print ('An error occurs when writing to disk!!!')
+        finally:
+            output.close()
+
 
 
 def merge(index_list):
