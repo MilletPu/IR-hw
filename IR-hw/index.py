@@ -321,6 +321,7 @@ class HashedIndex(object):
         return statistics
 
     def write_index_to_disk(self, filepath):
+        global output
         try:
             output = open(filepath, 'w+')
             output.write(str(self.get_sorted_inverted_index()))
