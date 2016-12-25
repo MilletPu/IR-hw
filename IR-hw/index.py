@@ -1,6 +1,7 @@
 # -*- encoding: utf8 -*-
 from __future__ import absolute_import, division, print_function
 
+import VB
 import collections
 import functools
 import math
@@ -292,6 +293,17 @@ class HashedIndex(object):
             self._inverted_index[terms][self.get_document_frequency(terms)] = sorted(self.get_documents(terms)) #or: not sorted documents
         return collections.OrderedDict(sorted(self._inverted_index.items(), key=lambda t: t[0]))
 
+    def get_sorted_inverted_index_VB(self):
+        """
+        return an OrderedDict object
+        of the inverted index with 'sorted' terms and corresponding 'sorted' postings
+        :return: sorted inverted index
+        """
+        for terms in self._terms.keys():
+            self._inverted_index[terms] = {}
+            self._inverted_index[terms][self.get_document_frequency(terms)] = sorted(VB.VB(self.get_documents(terms))) #or: not sorted documents
+        return collections.OrderedDict(sorted(self._inverted_index.items(), key=lambda t: t[0]))
+
     def get_sorted_posting_list(self, term):
         """
         return a posting list of a single term (i.e. its own inverted index).
@@ -325,6 +337,18 @@ class HashedIndex(object):
         try:
             output = open(filepath, 'w+')
             output.write(str(self.get_sorted_inverted_index()))
+            output.close()
+            print ('Successfylly write to disk!')
+        except:
+            print ('An error occurs when writing to disk!!!')
+        finally:
+            output.close()
+
+    def write_index_to_disk_VB(self, filepath):
+        global output
+        try:
+            output = open(filepath, 'w+')
+            output.write(str(self.get_sorted_inverted_index_VB()))
             output.close()
             print ('Successfylly write to disk!')
         except:

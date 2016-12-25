@@ -35,17 +35,14 @@ def construct_inverted_index():
 def VBcompressed(inverted_index):
     VBcompressed_index = inverted_index
     for i in range(0,len(inverted_index)):
-        print VB.VB(inverted_index.values()[i].values()[0])
         VBcompressed_index.values()[i].values()[0] = VB.VB(inverted_index.values()[i].values()[0])
-    return VBcompressed_index
 
 if __name__ == '__main__':
     index, corpus = construct_inverted_index()
-    # print index.get_sorted_inverted_index()  # 打印所有倒排索引
-    # print index.get_sorted_posting_list('title')  # 打印某个词项的倒排索引
-    # print index.get_corpus_statistics(corpus)  # 打印统计数据
-    # index.write_index_to_disk('inverted_index_with_doc_id.txt')  #写入磁盘
-    #
-    # print index.get_sorted_inverted_index().values()[0].values()[0]
-    # print VB.VB(index.get_sorted_inverted_index().values()[0].values()[0])
-    print VBcompressed(index.get_sorted_inverted_index())
+    print index.get_sorted_inverted_index()  # 打印所有倒排索引
+    print index.get_sorted_posting_list('title')  # 打印某个词项的倒排索引
+    print index.get_corpus_statistics(corpus)  # 打印统计数据
+    index.write_index_to_disk('inverted_index_with_doc_id.txt')  # 倒排索引写入磁盘
+
+    print index.get_sorted_inverted_index_VB() # 打印经过vb压缩后的倒排索引
+    index.write_index_to_disk_VB('inverted_index_with_doc_id_VB.txt')  # 压缩后的倒排索引写入磁盘
