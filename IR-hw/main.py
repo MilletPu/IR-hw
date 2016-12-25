@@ -10,6 +10,7 @@ from bs4 import BeautifulSoup
 def construct_inverted_index():
     invertedIndex = index.HashedIndex()
     global corpus
+    doc_id = 1
     for i in range(1, 3):
         url = 'shakespeare-merchant.trec.' + str(i)
         file_object = open(url)
@@ -18,7 +19,6 @@ def construct_inverted_index():
 
         soup = BeautifulSoup(corpus, "html.parser")
         all_docs = soup.findAll("doc")
-        doc_id = 1
         for doc in all_docs:
             doc_content = doc.contents
             sp = BeautifulSoup(str(doc_content), "html.parser")
