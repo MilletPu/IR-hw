@@ -6,6 +6,7 @@ import index
 from bs4 import BeautifulSoup
 
 
+# 读入莎士比亚语料库，构建索引。
 def construct_inverted_index():
     invertedIndex = index.HashedIndex()
     global corpus
@@ -32,17 +33,25 @@ def construct_inverted_index():
             doc_id += 1
     return invertedIndex, corpus
 
-def VBcompressed(inverted_index):
-    VBcompressed_index = inverted_index
-    for i in range(0,len(inverted_index)):
-        VBcompressed_index.values()[i].values()[0] = VB.VB(inverted_index.values()[i].values()[0])
 
+# 主函数
 if __name__ == '__main__':
+    # 1，建立索引
     index, corpus = construct_inverted_index()
-    print index.get_sorted_inverted_index()  # 打印所有倒排索引
-    print index.get_sorted_posting_list('title')  # 打印某个词项的倒排索引
-    print index.get_corpus_statistics(corpus)  # 打印统计数据
-    index.write_index_to_disk('inverted_index_with_doc_id.txt')  # 倒排索引写入磁盘
 
-    print index.get_sorted_inverted_index_VB() # 打印经过vb压缩后的倒排索引
-    index.write_index_to_disk_VB('inverted_index_with_doc_id_VB.txt')  # 压缩后的倒排索引写入磁盘
+    # 2，打印建立好的所有倒排索引，并写入文件
+    print index.get_sorted_inverted_index()
+    index.write_index_to_disk('inverted_index_with_doc_id.txt')
+
+    # 3，查询某个词项的倒排索引
+    print index.get_sorted_posting_list('title')
+
+    # 4，给出预料统计量
+    print index.get_corpus_statistics(corpus)
+
+    # 5，利用VB对倒排索引进行压缩，并写入文件
+    print index.get_sorted_inverted_index_VB()
+    index.write_index_to_disk_VB('inverted_index_with_doc_id_VB.txt')
+
+    # 6，提取词典，并利用单一字符串压缩
+    print index.get_longword()

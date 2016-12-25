@@ -126,6 +126,23 @@ class HashedIndex(object):
         else:
             return len(self._terms[term])
 
+    def get_dict(self):
+        """
+        Dict with words and its df
+        """
+        dict = self.items()
+        for postlist in dict:
+            dict[postlist] = len(dict[postlist])
+        return dict
+
+    def get_longword(self):
+        dict = self.get_dict().keys()
+        longword = ''
+        for words in dict:
+            longword += str(words)
+        return longword
+
+
     def get_document_length(self, document):
         """
         Returns the number of terms found within the specified document.
