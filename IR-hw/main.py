@@ -16,6 +16,7 @@ def construct_inverted_index():
 
         soup = BeautifulSoup(corpus, "html.parser")
         all_docs = soup.findAll("doc")
+        doc_id = 1
         for doc in all_docs:
             doc_content = doc.contents
             sp = BeautifulSoup(str(doc_content), "html.parser")
@@ -26,7 +27,8 @@ def construct_inverted_index():
             for doc_no in all_doc_nos:
                 doc_no_content = doc_no.contents[0]
                 for term in doc_content_to_token:
-                    invertedIndex.add_term_occurrence(term[0], doc_no_content)
+                    invertedIndex.add_term_occurrence(term[0], doc_id)
+            doc_id += 1
     return invertedIndex, corpus
 
 if __name__ == '__main__':
@@ -34,9 +36,4 @@ if __name__ == '__main__':
     print index.get_sorted_inverted_index()  # 打印所有倒排索引
     print index.get_sorted_posting_list('title')  # 打印某个词项的倒排索引
     print index.get_corpus_statistics(corpus)  # 打印统计数据
-
-
-
-    # # index.write_index_to_disk('data2.txt')
-    # print index.terms()  # 打印字典
-    # print index.items()
+    # index.write_index_to_disk('inverted_index_with_doc_name.txt')  #写入磁盘
