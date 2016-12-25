@@ -1,6 +1,7 @@
 # -*- encoding: utf8 -*-
 
 import textparser
+import VB
 import index
 from bs4 import BeautifulSoup
 
@@ -31,9 +32,20 @@ def construct_inverted_index():
             doc_id += 1
     return invertedIndex, corpus
 
+def VBcompressed(inverted_index):
+    VBcompressed_index = inverted_index
+    for i in range(0,len(inverted_index)):
+        print VB.VB(inverted_index.values()[i].values()[0])
+        VBcompressed_index.values()[i].values()[0] = VB.VB(inverted_index.values()[i].values()[0])
+    return VBcompressed_index
+
 if __name__ == '__main__':
-    [index,corpus] = construct_inverted_index()
-    print index.get_sorted_inverted_index()  # 打印所有倒排索引
-    print index.get_sorted_posting_list('title')  # 打印某个词项的倒排索引
-    print index.get_corpus_statistics(corpus)  # 打印统计数据
-    # index.write_index_to_disk('inverted_index_with_doc_name.txt')  #写入磁盘
+    index, corpus = construct_inverted_index()
+    # print index.get_sorted_inverted_index()  # 打印所有倒排索引
+    # print index.get_sorted_posting_list('title')  # 打印某个词项的倒排索引
+    # print index.get_corpus_statistics(corpus)  # 打印统计数据
+    # index.write_index_to_disk('inverted_index_with_doc_id.txt')  #写入磁盘
+    #
+    # print index.get_sorted_inverted_index().values()[0].values()[0]
+    # print VB.VB(index.get_sorted_inverted_index().values()[0].values()[0])
+    print VBcompressed(index.get_sorted_inverted_index())
