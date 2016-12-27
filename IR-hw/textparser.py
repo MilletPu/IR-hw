@@ -3,7 +3,6 @@ from __future__ import unicode_literals, print_function, division
 
 import re
 import math
-import unicodedata
 
 from copy import copy
 from string import ascii_letters, digits, punctuation

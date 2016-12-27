@@ -42,26 +42,6 @@ class HashedIndex(object):
     def __eq__(self, other):
         return self._terms == other._terms and self._documents == other._documents
 
-    def clear(self):
-        """
-        Resets the HashedIndex to a clean state without any terms or documents.
-        """
-        self._terms = {}
-        self._documents = collections.Counter()
-
-    def freeze(self):
-        """
-        Freezes the HashedIndex, preventing any new terms from being added
-        when calling add_term_occurrence.
-        """
-        self._freeze = True
-
-    def unfreeze(self):
-        """
-        Unfreezes (thaws) the HashedIndex, allowing new terms to be added
-        when calling add_term_occurrence.
-        """
-        self._freeze = False
 
     def add_term_occurrence(self, term, document):
         """
@@ -199,41 +179,6 @@ class HashedIndex(object):
             result += self.get_tfidf(term, document, normalized)
         return result
 
-    def generate_document_vector(self, doc, mode='tfidf'):
-        """
-        Returns a representation of the specified document as a feature vector
-        weighted according the mode specified (by default tf-dif).
-
-        A custom weighting function can also be passed which receives the hashedindex
-        instance, the selected term and document as parameters.
-
-        The result will be returned in the form of a list. This can be converted
-        into a numpy array if required using the `np.asarray` method
-        Available built-in modes:
-          * tfidf: Term Frequency Inverse Document Frequency
-          * ntfidf: Normalized Term Frequency Inverse Document Frequency
-          * tf: Term Frequency
-          * ntf: Normalized Term Frequency
-        """
-        if mode == 'tfidf':
-            selected_function = HashedIndex.get_tfidf
-        elif mode == 'ntfidf':
-            selected_function = functools.partial(HashedIndex.get_tfidf, normalized=True)
-        elif mode == 'tf':
-            selected_function = HashedIndex.get_term_frequency
-        elif mode == 'ntf':
-            selected_function = functools.partial(HashedIndex.get_term_frequency, normalized=True)
-        elif hasattr(mode, '__call__'):
-            selected_function = mode
-        else:
-            raise ValueError('Unexpected mode: %s', mode)
-
-        result = []
-        for term in self._terms:
-            result.append(selected_function(self, term, doc))
-
-        return result
-
     def generate_feature_matrix(self, mode='tfidf'):
         """
         Returns a feature matrix in the form of a list of lists which
@@ -275,12 +220,6 @@ class HashedIndex(object):
 
         for term in garbage:
             del (self._terms[term])
-
-    def to_dict(self):
-        return {
-            'documents': self._documents,
-            'terms': self._terms,
-        }
 
     def from_dict(self, data):
         self._documents = collections.Counter(data['documents'])
@@ -355,9 +294,9 @@ class HashedIndex(object):
             output = open(filepath, 'w+')
             output.write(str(self.get_sorted_inverted_index()))
             output.close()
-            print ('Successfylly write to disk!')
+            print ('Successfylly write to: ' + filepath)
         except:
-            print ('An error occurs when writing to disk!!!')
+            print ('An error occurs when writing to: ' + filepath)
         finally:
             output.close()
 
@@ -367,9 +306,9 @@ class HashedIndex(object):
             output = open(filepath, 'w+')
             output.write(str(self.get_sorted_inverted_index_VB()))
             output.close()
-            print ('Successfylly write to disk!')
+            print ('Successfylly write to: ' + filepath)
         except:
-            print ('An error occurs when writing to disk!!!')
+            print ('An error occurs when writing to: ' + filepath)
         finally:
             output.close()
 
